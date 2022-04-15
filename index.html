@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <base target="_top">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Html from by Archisman Banik</title>
+    <link rel="stylesheet" href="index.css" />
+
+    <!--INCLUDE JavaScript.html FILE-->
+  </head>
+  <body>
+    <div class="title">
+      <h1>Welcome</h1>
+    </div>
+    <div class="form">
+      <form class="form1" method="post" autocomplete="off" name="google-sheet">
+        <div class="subtitle">Let's save your data!</div>
+        <div class="input-container ic1">
+          <input
+            id="firstname"
+            name="FirstName"
+            class="input"
+            type="text"
+            placeholder="Enter your First Name"
+            value=""
+            required=""
+          />
+        </div>
+        <div class="input-container ic2">
+          <input
+            id="lastname"
+            name="LastName"
+            class="input"
+            type="text"
+            placeholder="Enter your Last Name"
+            value=""
+            required=""
+          />
+        </div>
+        <input type="submit" name="submit" class="submit" value="Save" />
+      </form>
+
+      <form class="form2" method="post" autocomplete="off" name="google-sheet">
+        <div class="subtitle">Let's fetch your data!</div>
+        <div class="input-container ic1">
+          <input
+            id="firstname1"
+            name="FirstName"
+            class="input"
+            type="text"
+            placeholder="Enter your First Name"
+            required=""
+          />
+        </div>
+        <input type="submit" name="submit" class="submit" id="fetch" value="Fetch" />
+        <table>
+            <tr>
+                <th>FirstName</th>
+                <th>LastName</th>
+              </tr>
+              <tr>
+                <td>Archisman</td>
+                <td>Banik</td>
+              </tr>
+              <tr>
+                <td>Rishav</td>
+                <td>Naskar</td>
+              </tr>
+        </table>
+      </form>
+      </div>
+    </div>
+
+    <script>
+      console.log("hello");
+      const scriptURL =
+        "https://script.google.com/macros/s/AKfycbyY_H27_GnpjglJE4fWZ69wf8xaKUgSBgNKZr19XvKaa_YdehVtsgq6W8NMmZig4sSK/exec";
+      const form = document.forms["google-sheet"];
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        fetch(scriptURL, { method: "POST", body: new FormData(form) })
+          .then((response) =>
+            alert("Thanks for Contacting us..! We Will Contact You Soon...")
+          )
+          .catch((error) => console.error("Error!", error.message));
+        reset();
+      });
+
+      function reset() {
+        document.getElementById("firstname").value = "";
+        document.getElementById("lastname").value = "";
+      }
+      console.log("hmm");
+      
+
+
+      form.addEventListener("fetch", (e) => {
+        e.preventDefault();
+        searchProfile();
+      });
+
+      function searchProfile() {
+        var appProfile = document.getElementById("firstname1");
+        console.log(appProfile);
+        if (appProfile.length) {
+          google.script.run
+            .withSuccessHandler(updateProfile)
+            .updateIdNum(appProfile);
+        }
+        else{
+        alert("invalid Profile Number");
+      }}
+      function updateProfile(returnData) {
+          console.log("pass")
+        document.getElementById("rnum").value = returnData[1];
+      }
+    </script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  </body>
+</html>
